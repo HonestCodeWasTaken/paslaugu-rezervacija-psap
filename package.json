@@ -4,7 +4,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "packageManager": "pnpm@7.26.3",
   "scripts": {
     "build": "turbo build",
     "clean": "rm -rf node_modules",
@@ -29,9 +28,11 @@
     "turbo": "^1.7.0",
     "typescript": "^4.9.4"
   },
-  "pnpm": {
-    "patchedDependencies": {
-      "react-native@0.70.5": "patches/react-native@0.70.5.patch"
-    }
-  }
+  "workspaces": [
+    "apps/nextjs",
+    "packages/api",
+    "packages/auth",
+    "packages/db",
+    "packages/config/*"
+  ]
 }
