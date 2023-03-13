@@ -16,9 +16,9 @@ function Layout({ children }: LayoutProps) {
   };
   const [parent] = useAutoAnimate();
   return (
-    <div className="flex flex-col h-screen" ref={parent}>
+    <div className="flex flex-col h-screen">
       <Header toggleSidebar={toggleSidebar} />
-      <div className="flex flex-1 overflow-hidden" ref={parent}>
+      <div className="flex flex-1 overflow-hidden">
         <aside
           ref={parent}
           style={{

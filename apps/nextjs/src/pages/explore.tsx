@@ -4,7 +4,7 @@ type Props = {};
 
 const Explore = (props: Props) => {
   return (
-    <body className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+    <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
       <section className="bg-white py-8">
         <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
@@ -290,7 +290,7 @@ const Explore = (props: Props) => {
           </p>
         </div>
       </section>
-    </body>
+    </div>
   );
 };
 
