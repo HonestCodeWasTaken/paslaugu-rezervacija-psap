@@ -1,34 +1,10 @@
-import React from "react";
-import Footer from "components/Footer";
-import Header from "components/Header";
+import Image from "next/image";
 
 type Props = {};
 
 const Explore = (props: Props) => {
   return (
     <body className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
-      <Header />
-
-      <section
-        className="w-full mx-auto bg-nordic-gray-light flex pt-12 md:pt-0 md:items-center bg-cover bg-right"
-
-        // style="max-width:1600px; height: 32rem; background-image: url('https://images.unsplash.com/photo-1422190441165-ec2956dc9ecc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=80');"
-      >
-        <div className="container mx-auto">
-          <div className="flex flex-col w-full lg:w-1/2 justify-center items-start  px-6 tracking-wide">
-            <h1 className="text-black text-2xl my-4">
-              Stripy Zig Zag Jigsaw Pillow and Duvet Set
-            </h1>
-            <a
-              className="text-xl inline-block no-underline border-b border-gray-600 leading-relaxed hover:text-black hover:border-black"
-              href="#"
-            >
-              products
-            </a>
-          </div>
-        </div>
-      </section>
-
       <section className="bg-white py-8">
         <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
@@ -37,7 +13,7 @@ const Explore = (props: Props) => {
                 className="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
                 href="#"
               >
-                Store
+                Services
               </a>
 
               <div className="flex items-center" id="store-nav-content">
@@ -76,9 +52,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/photo-1555982105-d25af4182e4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -96,9 +75,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/photo-1508423134147-addf71308178?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -116,9 +98,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -136,9 +121,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -156,9 +144,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/photo-1467949576168-6ce8e2df4e13?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -176,9 +167,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -196,9 +190,12 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
-                src="https://images.unsplash.com/photo-1550837368-6594235de85c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80"
+                src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
               <div className="pt-3 flex items-center justify-between">
                 <p className="">Product Name</p>
@@ -216,7 +213,10 @@ const Explore = (props: Props) => {
 
           <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
-              <img
+              <Image
+                width={400}
+                height={400}
+                alt="Picture of the author"
                 className="hover:grow hover:shadow-lg"
                 src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80"
               />
@@ -290,8 +290,6 @@ const Explore = (props: Props) => {
           </p>
         </div>
       </section>
-
-      <Footer />
     </body>
   );
 };
