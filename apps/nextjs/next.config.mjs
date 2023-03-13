@@ -29,7 +29,7 @@ const config = {
       },
       {
         protocol: "https",
-        hostname: "via.placeholder.com",
+        hostname: "tailwindui.com",
         // port: '',
         // pathname: '/account123/**',
       },

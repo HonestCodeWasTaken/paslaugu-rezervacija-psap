@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
+import { useRouter } from "next/router";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-import Footer from "./Footer";
 import Header from "./Header";
 
 type LayoutProps = {
@@ -10,9 +10,9 @@ type LayoutProps = {
 
 function Layout({ children }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const router = useRouter();
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    router.asPath === "/explore" ? setIsOpen(!isOpen) : null;
   };
   const [parent] = useAutoAnimate();
   return (
@@ -37,7 +37,7 @@ function Layout({ children }: LayoutProps) {
           {children}
         </main>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
