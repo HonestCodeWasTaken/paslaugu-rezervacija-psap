@@ -12,7 +12,7 @@ function Layout({ children }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const toggleSidebar = () => {
-    router.asPath === "/explore" ? setIsOpen(!isOpen) : null;
+    router.asPath !== "/signin" ? setIsOpen(!isOpen) : null;
   };
   const [parent] = useAutoAnimate();
   return (
@@ -20,7 +20,7 @@ function Layout({ children }: LayoutProps) {
       <Header toggleSidebar={toggleSidebar} />
       <div className="flex flex-1 overflow-hidden">
         <aside
-          ref={parent}
+          // ref={parent}
           style={{
             width: isOpen ? "12rem" : "0rem",
           }}
