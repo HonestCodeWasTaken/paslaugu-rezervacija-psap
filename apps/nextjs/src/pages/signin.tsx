@@ -12,9 +12,12 @@
   }
   ```
 */
+import { type GetServerSideProps } from "next";
+import { AppProps } from "next/app";
+import { getProviders, signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 
-export default function Example() {
+const SignIn = ({ providers }: { providers: AppProps }) => {
   return (
     <>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -42,7 +45,6 @@ export default function Example() {
                 />
               </div>
             </div>
-
             <div className="flex flex-col gap-2">
               <button
                 type="submit"
@@ -50,17 +52,36 @@ export default function Example() {
               >
                 Sign in with email token
               </button>
-              <button
-                type="submit"
-                className="group items-center relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-3 text-sm font-semibold text-black hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                <FcGoogle className="w-6 h-6 absolute left-0 m-1" />
-                Sign in with Google
-              </button>
+              {Object.values(providers)
+                .filter((provider) => provider.name === "Google")
+                .map((provider) => (
+                  <button
+                    type="submit"
+                    className="group items-center relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-3 text-sm font-semibold text-black hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    key={provider.id}
+                    onClick={() =>
+                      signIn(provider.id, {
+                        callbackUrl: `${window.location.origin}`,
+                      })
+                    }
+                  >
+                    <FcGoogle className="w-6 h-6 absolute left-0 m-1" />
+                    Sign in with Google
+                  </button>
+                ))}
             </div>
           </form>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default SignIn;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const providers = await getProviders();
+  return {
+    props: { providers },
+  };
+};
