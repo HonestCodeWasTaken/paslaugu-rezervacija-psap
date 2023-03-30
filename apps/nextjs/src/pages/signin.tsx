@@ -14,21 +14,25 @@
 */
 import { type GetServerSideProps } from "next";
 import { AppProps } from "next/app";
-import { getProviders, signIn } from "next-auth/react";
+import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 
-const SignIn = ({ providers }: { providers: AppProps }) => {
+const SignIn = ({ csrfToken, providers }) => {
   return (
     <>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-md space-y-5">
           <div>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Sign in to your account
             </h2>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
+          <form
+            className="mt-8 space-y-6"
+            action="/api/auth/signin/email"
+            method="POST"
+          >
+            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
@@ -45,6 +49,7 @@ const SignIn = ({ providers }: { providers: AppProps }) => {
                 />
               </div>
             </div>
+
             <div className="flex flex-col gap-2">
               <button
                 type="submit"
@@ -52,25 +57,26 @@ const SignIn = ({ providers }: { providers: AppProps }) => {
               >
                 Sign in with email token
               </button>
-              {Object.values(providers)
-                .filter((provider) => provider.name === "Google")
-                .map((provider) => (
-                  <button
-                    type="submit"
-                    className="group items-center relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-3 text-sm font-semibold text-black hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    key={provider.id}
-                    onClick={() =>
-                      signIn(provider.id, {
-                        callbackUrl: `${window.location.origin}`,
-                      })
-                    }
-                  >
-                    <FcGoogle className="w-6 h-6 absolute left-0 m-1" />
-                    Sign in with Google
-                  </button>
-                ))}
             </div>
           </form>
+
+          {Object.values(providers)
+            .filter((provider) => provider.name === "Google")
+            .map((provider) => (
+              <button
+                type="submit"
+                className="group items-center relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-3 text-sm font-semibold text-black hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                key={provider.id}
+                onClick={() =>
+                  signIn(provider.id, {
+                    callbackUrl: `${window.location.origin}`,
+                  })
+                }
+              >
+                <FcGoogle className="w-6 h-6 absolute left-0 m-1" />
+                Sign in with Google
+              </button>
+            ))}
         </div>
       </div>
     </>
@@ -79,9 +85,13 @@ const SignIn = ({ providers }: { providers: AppProps }) => {
 
 export default SignIn;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export async function getServerSideProps(context) {
   const providers = await getProviders();
+  const csrfToken = await getCsrfToken(context);
   return {
-    props: { providers },
+    props: {
+      providers,
+      csrfToken,
+    },
   };
-};
+}
