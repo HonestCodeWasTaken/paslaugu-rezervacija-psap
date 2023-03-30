@@ -1,10 +1,28 @@
 import Image from "next/image";
+import { signIn, signOut } from "next-auth/react";
+
+import { api } from "~/utils/api";
 
 type Props = {};
 
 const Explore = (props: Props) => {
+  const { data: session } = api.auth.getSession.useQuery();
   return (
     <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+      <div className="flex flex-col items-center justify-center gap-4">
+        {session?.user && (
+          <p className="text-center text-2xl text-black">
+            {session && <span>Logged in as {session?.user?.name}</span>}
+          </p>
+        )}
+        <button
+          className="rounded-full outline bg-white/10 px-10 py-3 font-semibold text-black no-underline transition hover:bg-black/5"
+          onClick={session ? () => void signOut() : () => void signIn()}
+        >
+          {session ? "Sign out" : "Sign in"}
+        </button>
+      </div>
+
       <section className="bg-white py-8">
         <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
