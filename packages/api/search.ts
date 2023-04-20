@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+/*import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "../../../../../packages/db/prisma/data";
 
@@ -32,3 +32,34 @@ export default async function handler(
     } catch (error) {}
   }
 }
+// nuo cia naujas kodas
+import { PrismaClient } from "@prisma/client";
+
+import { trpc } from "@trpc/server";
+
+const prisma = new PrismaClient();
+
+type SearchArgs = {
+  query: string;
+};
+
+const appRouter = trpc.router();
+
+appRouter.query("search", {
+  input: trpc.shape({
+    query: trpc.string(),
+  }),
+  async resolve({ input }: trpc.ResolveContext<SearchArgs>) {
+    const results = await prisma.user.findMany({
+      where: {
+        name: {
+          contains: input.query,
+        },
+      },
+    });
+    return results;
+  },
+});
+
+export default appRouter;
+*/
