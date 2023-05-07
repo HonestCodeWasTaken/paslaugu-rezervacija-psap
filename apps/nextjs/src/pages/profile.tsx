@@ -73,24 +73,15 @@ const Profile = () => {
                 </button>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={openCreateBusinessModal}
-                className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
-              >
-                Create Business
-              </button>
+              <CreateBusinessModal
+                onClose={() => setShowModal(false)}
+                open={showModal}
+                onSubmit={onSubmit}
+              />
             )}
           </div>
         </div>
       </div>
-      {showModal && (
-        <CreateBusinessModal
-          onClose={() => setShowModal(false)}
-          open={showModal}
-          onSubmit={onSubmit}
-        />
-      )}
     </div>
   );
 };

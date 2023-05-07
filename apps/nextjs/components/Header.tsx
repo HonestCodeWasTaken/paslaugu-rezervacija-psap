@@ -42,7 +42,10 @@ const Header = ({ toggleSidebar }: Props) => {
         </div>
 
         <div className="order-2 md:order-3 flex items-center" id="nav-content">
-          <a className="inline-block no-underline hover:text-black" href="#">
+          <a
+            className="inline-block no-underline hover:text-black"
+            href="/profile"
+          >
             <svg
               className="fill-current hover:text-black"
               xmlns="http://www.w3.org/2000/svg"

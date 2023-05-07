@@ -2,6 +2,7 @@ import Head from "next/head";
 import ExploreHeader from "components/Explore/ExploreHeader";
 import NavigationIcons from "components/Explore/NavigationIcons";
 import ProductCard from "components/Explore/ProductCard";
+import CreateBusinessModal from "components/Modals/CreateBusinessModal";
 
 import { trpc } from "~/utils/api";
 import { products } from "~/utils/mock";
@@ -26,7 +27,6 @@ const Home = () => {
               >
                 Services
               </a>
-
               <div className="flex items-center" id="store-nav-content">
                 <a
                   className="pl-3 inline-block no-underline hover:text-black"
