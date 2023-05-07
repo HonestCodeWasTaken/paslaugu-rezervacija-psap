@@ -10,8 +10,8 @@
     "db:generate": "npm run with-env prisma generate",
     "db:push": "npm run with-env prisma db push --skip-generate --accept-data-loss --force-reset",
     "dev": "npm run with-env prisma studio --port 5556",
-    "seed": "node prisma/seed.js",
-    "seedDays": "node prisma/addBusinessHours.js"
+    "seedDays": "node prisma/addBusinessHours.js",
+    "seed": "ts-node ./prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
