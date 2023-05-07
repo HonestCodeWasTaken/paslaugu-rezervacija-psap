@@ -24,6 +24,24 @@ export const businessRouter = router({
         phoneNumber: z.string().optional(),
         email: z.string().optional(),
         created: z.date().optional(),
+        socialMedia: z
+          .object({
+            facebook: z.string().optional(),
+            instagram: z.string().optional(),
+            tiktok: z.string().optional(),
+            youtube: z.string().optional(),
+          })
+          .optional(),
+        address: z
+          .object({
+            street_name: z.string(),
+            street_number: z.number(),
+            city: z.string(),
+            state: z.string(),
+            postal_code: z.string(),
+            country: z.string(),
+          })
+          .optional(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -33,6 +51,20 @@ export const businessRouter = router({
           user: {
             connect: { id: ctx.session.user.id },
           },
+          socialMedia: input.socialMedia
+            ? {
+                create: {
+                  ...input.socialMedia,
+                },
+              }
+            : undefined,
+          address: input.address
+            ? {
+                create: {
+                  ...input.address,
+                },
+              }
+            : undefined,
         },
       });
 

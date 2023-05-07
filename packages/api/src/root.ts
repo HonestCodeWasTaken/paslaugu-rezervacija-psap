@@ -1,10 +1,14 @@
-import { authRouter } from "./router/authRouter";
-import { postRouter } from "./router/postRouter";
+import { businessRouter } from "./router/businessRouter";
+import { notificationRouter } from "./router/notificationsRouter";
+import { reservationRouter } from "./router/reservationsRouter";
+import { serviceRouter } from "./router/servicesRouter";
 import { router } from "./trpc";
 
 export const appRouter = router({
-  post: postRouter,
-  auth: authRouter,
+  businesses: businessRouter,
+  services: serviceRouter,
+  reservations: reservationRouter,
+  notifications: notificationRouter,
 });
 
 // export type definition of API
