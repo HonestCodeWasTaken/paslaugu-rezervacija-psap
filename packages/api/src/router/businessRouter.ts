@@ -93,12 +93,52 @@ export const businessRouter = router({
         phoneNumber: z.string().optional(),
         email: z.string().optional(),
         created: z.date().optional(),
+        socialMedia: z
+          .object({
+            facebook: z.string().optional(),
+            instagram: z.string().optional(),
+            tiktok: z.string().optional(),
+            youtube: z.string().optional(),
+          })
+          .optional(),
+        address: z
+          .object({
+            country: z.string(),
+            city: z.string(),
+            street_name: z.string(),
+            street_number: z.number(),
+            postal_code: z.string(),
+            coordinates: z.string(),
+          })
+          .optional(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
       const updatedBusiness = await prisma.business.update({
         where: { id: input.id },
-        data: { ...input },
+        data: {
+          ...input,
+          socialMedia: input.socialMedia
+            ? {
+                upsert: {
+                  create: input.socialMedia,
+                  update: input.socialMedia,
+                },
+              }
+            : undefined,
+          address: input.address
+            ? {
+                upsert: {
+                  create: input.address,
+                  update: input.address,
+                },
+              }
+            : undefined,
+        },
+        include: {
+          socialMedia: true,
+          address: true,
+        },
       });
 
       return updatedBusiness;
