@@ -11,11 +11,11 @@ const ProductCard = ({ imageUrl, productName, description }: Props) => {
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
       <a href="#">
-        <Image
-          width={400}
-          height={400}
+        <img
+          // width={400}
+          // height={400}
           alt="Picture of the author"
-          className="hover:grow hover:shadow-lg"
+          className="hover:grow hover:shadow-lg w-96 h-96"
           src={imageUrl}
         />
         <div className="pt-3 flex items-center justify-between">

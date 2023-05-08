@@ -63,7 +63,7 @@ model Business {
   id             Int              @id @default(autoincrement())
   name           String
   description    String
-  main_image_url String
+  main_image_url String           @db.VarChar(500)
   user_id        String           @unique
   user           User             @relation(fields: [user_id], references: [id])
   phoneNumber    String?          @map("phone_number")

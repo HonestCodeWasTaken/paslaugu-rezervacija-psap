@@ -1,11 +1,7 @@
-import Head from "next/head";
 import ExploreHeader from "components/Explore/ExploreHeader";
-import NavigationIcons from "components/Explore/NavigationIcons";
 import ProductCard from "components/Explore/ProductCard";
-import CreateBusinessModal from "components/Modals/CreateBusinessModal";
 
 import { trpc } from "~/utils/api";
-import { products } from "~/utils/mock";
 
 const Home = () => {
   const businessesQuery = trpc.businesses.allBusinesses.useQuery();
