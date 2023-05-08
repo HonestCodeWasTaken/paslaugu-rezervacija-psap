@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
+import { Service } from "@acme/db";
 
 import { trpc } from "~/utils/api";
 
 const Profile = () => {
   const [showServiceModal, setShowServiceModal] = useState(false);
+  const [editingService, setEditingService] = useState<null | Service>(null);
   const [newServiceData, setNewServiceData] = useState({
     service_name: "",
     description: "",
@@ -17,19 +19,18 @@ const Profile = () => {
     category_id: "",
   });
 
-  const handleChange = (e) => {
-    setNewServiceData({ ...newServiceData, [e.target.name]: e.target.value });
-  };
+  const router = useRouter();
+  const utils = trpc.useContext();
 
   const { mutateAsync: createBusiness } =
     trpc.businesses.createBusiness.useMutation();
   const { mutateAsync: createService } =
     trpc.services.createServiceBySession.useMutation();
   const businessesQuery = trpc.businesses.businessesBySession.useQuery();
-  const utils = trpc.useContext();
 
   const { data: session, status } = useSession();
-  const router = useRouter();
+  const deleteServiceMutation = trpc.services.deleteService.useMutation();
+  const updateServiceMutation = trpc.services.updateService.useMutation();
   const servicesQuery = trpc.services.getServicesByUserSession.useQuery();
   // Redirect to home if no user is in the session
   React.useEffect(() => {
@@ -46,19 +47,25 @@ const Profile = () => {
 
   const business = businessesQuery.data[0];
 
+  const handleChange = (e) => {
+    setNewServiceData({ ...newServiceData, [e.target.name]: e.target.value });
+  };
   const handleAddServiceClick = () => {
+    setEditingService(null);
     setShowServiceModal(true);
   };
 
   const handleAddServiceCancel = () => {
     setShowServiceModal(false);
+    setEditingService(null);
   };
 
   const handleAddServiceSubmit = async () => {
     await toast.promise(
       createService({
         ...newServiceData,
-        category_id: parseInt(newServiceData.category_id),
+        category_id: parseInt(newServiceData.category_id, 10),
+        cost: parseInt(newServiceData.cost, 10),
       }),
       {
         loading: "Creating service...",
@@ -70,7 +77,14 @@ const Profile = () => {
     setShowServiceModal(false);
     // await servicesQuery.refetch();
   };
-
+  const handleEditServiceClick = (service) => {
+    setEditingService(service);
+    setShowServiceModal(true);
+  };
+  const handleDeleteServiceClick = async (serviceId) => {
+    await deleteServiceMutation.mutateAsync({ id: serviceId });
+    servicesQuery.refetch();
+  };
   return (
     <>
       <Toaster />
@@ -95,6 +109,18 @@ const Profile = () => {
                       <p>{service.description}</p>
                       <p>Cost: {service.cost}</p>
                       <p>Session length: {service.session_length}</p>
+                      <button
+                        className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+                        onClick={() => handleEditServiceClick(service)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="mt-2 ml-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
+                        onClick={() => handleDeleteServiceClick(service.id)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   ))}
                   {!showServiceModal && (
@@ -111,7 +137,11 @@ const Profile = () => {
           )}
           {showServiceModal && (
             <div className="bg-white p-4 mt-6 rounded-md">
-              <h3>Add a new service</h3>
+              <h3>
+                {editingService
+                  ? `edit service - id: ${editingService.id} with name - ${editingService.service_name}`
+                  : "Add a new service"}
+              </h3>
               <div>
                 <div className="mt-4">
                   <label htmlFor="service_name">Service Name:</label>
@@ -171,7 +201,35 @@ const Profile = () => {
                   </button>
                   <button
                     className="ml-4 px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-600"
-                    onClick={handleAddServiceSubmit}
+                    onClick={() =>
+                      editingService
+                        ? updateServiceMutation.mutate({
+                            id: editingService.id,
+                            updates: {
+                              service_name:
+                                newServiceData.service_name === ""
+                                  ? undefined
+                                  : newServiceData.service_name,
+                              description:
+                                newServiceData.description === ""
+                                  ? undefined
+                                  : newServiceData.description,
+                              cost:
+                                newServiceData.cost === 0
+                                  ? undefined
+                                  : newServiceData.cost,
+                              session_length:
+                                newServiceData.session_length === ""
+                                  ? undefined
+                                  : newServiceData.session_length,
+                              category_id:
+                                newServiceData.category_id === ""
+                                  ? undefined
+                                  : parseInt(newServiceData.category_id, 10),
+                            },
+                          })
+                        : handleAddServiceSubmit()
+                    }
                   >
                     Save
                   </button>
