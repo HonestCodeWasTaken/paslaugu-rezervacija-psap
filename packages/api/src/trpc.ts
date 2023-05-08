@@ -12,6 +12,8 @@ import superjson from "superjson";
 import { getServerSession, type Session } from "@acme/auth";
 import { prisma } from "@acme/db";
 
+import { type Context } from "./context";
+
 /**
  * 1. CONTEXT
  *
@@ -63,7 +65,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * This is where the trpc api is initialized, connecting the context and
  * transformer
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
+const t = initTRPC.context<Context>().create({
   transformer: superjson,
   errorFormatter({ shape }) {
     return shape;
