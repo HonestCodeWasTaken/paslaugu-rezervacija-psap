@@ -1,23 +1,28 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { type GetServerSideProps } from "next";
-import { AppProps } from "next/app";
-import { getCsrfToken, getProviders, signIn } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { InferGetServerSidePropsType } from "next/types";
+import { CtxOrReq } from "next-auth/client/_utils";
+import {
+  getCsrfToken,
+  getProviders,
+  signIn,
+  useSession,
+} from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 
-const SignIn = ({ csrfToken, providers }) => {
+const SignIn = ({
+  csrfToken,
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  console.log(providers);
+
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, [session]);
   return (
     <>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -60,23 +65,26 @@ const SignIn = ({ csrfToken, providers }) => {
             </div>
           </form>
 
-          {Object.values(providers)
-            .filter((provider) => provider.name === "Google")
-            .map((provider) => (
-              <button
-                type="submit"
-                className="group items-center relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-3 text-sm font-semibold text-black hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                key={provider.id}
-                onClick={() =>
-                  signIn(provider.id, {
-                    callbackUrl: `${window.location.origin}`,
-                  })
-                }
-              >
-                <FcGoogle className="w-6 h-6 absolute left-0 m-1" />
-                Sign in with Google
-              </button>
-            ))}
+          {providers
+            ? Object.values(providers)
+                .filter((provider) => provider.name === "Google")
+                .map((provider) => (
+                  <button
+                    type="submit"
+                    className="group items-center relative flex w-full justify-center rounded-md border border-indigo-600 py-2 px-3 text-sm font-semibold text-black hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    key={provider.id}
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    onClick={() =>
+                      signIn(provider.id, {
+                        callbackUrl: `${window.location.origin}`,
+                      })
+                    }
+                  >
+                    <FcGoogle className="w-6 h-6 absolute left-0 m-1" />
+                    Sign in with Google
+                  </button>
+                ))
+            : ""}
         </div>
       </div>
     </>
@@ -85,7 +93,7 @@ const SignIn = ({ csrfToken, providers }) => {
 
 export default SignIn;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: CtxOrReq | undefined) {
   const providers = await getProviders();
   const csrfToken = await getCsrfToken(context);
   return {

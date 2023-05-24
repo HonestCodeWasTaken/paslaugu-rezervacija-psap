@@ -1,10 +1,10 @@
-import Image from "next/image";
 import ExploreHeader from "components/Explore/ExploreHeader";
 import ProductCard from "components/Explore/ProductCard";
 import SearchInput from "components/SearchInput";
-import { signIn, signOut } from "next-auth/react";
 
+import Link from "next/link";
 import { trpc } from "~/utils/api";
+
 
 const Home = () => {
   const businessesQuery = trpc.businesses.allBusinesses.useQuery();
@@ -15,7 +15,9 @@ const Home = () => {
   return (
     <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
       <ExploreHeader />
-
+        <p id="messages_page_route">
+          <Link href="./messages">Messages page</Link>
+        </p>
       <section className="bg-white py-8">
         <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
