@@ -1,5 +1,8 @@
+import Image from "next/image";
 import ExploreHeader from "components/Explore/ExploreHeader";
 import ProductCard from "components/Explore/ProductCard";
+import SearchInput from "components/SearchInput";
+import { signIn, signOut } from "next-auth/react";
 
 import { trpc } from "~/utils/api";
 
@@ -23,6 +26,9 @@ const Home = () => {
               >
                 Services
               </a>
+              <div className="flex flex-col gap-10 items-center p-6 backgroundColor:'rgba(255, 255, 255, 0.2)'">
+                <SearchInput />
+              </div>
               <div className="flex items-center" id="store-nav-content">
                 <a
                   className="pl-3 inline-block no-underline hover:text-black"

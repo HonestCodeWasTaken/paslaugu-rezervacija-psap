@@ -4,6 +4,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import Header from "./Header";
 
+//import SearchInput from "./SearchInput";
+
 type LayoutProps = {
   children: ReactNode;
 };
@@ -28,12 +30,13 @@ function Layout({ children }: LayoutProps) {
         >
           {isOpen ? (
             <>
-              <h2>hi</h2>
+              <h2>Option1</h2>
             </>
           ) : null}
         </aside>
         <main className="flex-1 overflow-y-auto p-4 w-full">
           {/* Main content goes here */}
+
           {children}
         </main>
       </div>
