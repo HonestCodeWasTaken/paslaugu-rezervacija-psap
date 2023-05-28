@@ -24,8 +24,6 @@ const UseSockets = () => {
   const isMountedRef = useRef(false); // To track if component is still mounted
   const [error, setError] = useState<string | null>(null);
   const session = useSession();
-  console.log("session", session.data?.user.id);
-  console.log(session.data?.user.id);
   useEffect(() => {
     isMountedRef.current = true; // Component is mounted
     const initialize = async () => {
@@ -39,7 +37,6 @@ const UseSockets = () => {
             console.log("Connected to socket server");
           });
           if (session?.data?.user?.id) {
-            console.log("prieita");
             socketRef.current?.emit("joinUserRoom", session?.data.user?.id);
           }
           socketRef.current.on("notification", (object: NotificationObject) => {
