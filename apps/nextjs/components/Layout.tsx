@@ -13,8 +13,7 @@ type LayoutProps = {
 };
 
 function Layout({ children }: LayoutProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(true);
   const { data: session, status } = useSession();
   const user = session?.user;
   const selectedOption = useSelectedOptionStore(

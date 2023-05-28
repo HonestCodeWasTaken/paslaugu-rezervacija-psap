@@ -16,7 +16,7 @@ const AddService = (props: Props) => {
     session_length: "",
     category_id: "",
   });
-
+  const utils = trpc.useContext();
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -38,8 +38,7 @@ const AddService = (props: Props) => {
         error: "Could not create service",
       },
     );
-
-    // await servicesQuery.refetch();
+    await utils.businesses.businessesBySession.invalidate();
   };
   return (
     <div className="bg-white p-4 mt-6 rounded-md">

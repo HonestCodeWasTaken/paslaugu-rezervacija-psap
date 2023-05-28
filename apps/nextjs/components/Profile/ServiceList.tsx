@@ -130,7 +130,7 @@ const Services = ({ services }: Props) => {
               <input
                 type="text"
                 name="name"
-                value={newServiceData.name}
+                value={newServiceData.service_name}
                 onChange={handleChange}
                 className="mt-1 block w-full shadow-sm sm:text-sm rounded-md"
               />
@@ -159,7 +159,7 @@ const Services = ({ services }: Props) => {
               <input
                 type="number"
                 name="price"
-                value={newServiceData.price}
+                value={newServiceData.cost}
                 onChange={handleChange}
                 className="mt-1 block w-full shadow-sm sm:text-sm rounded-md"
               />
@@ -174,7 +174,7 @@ const Services = ({ services }: Props) => {
               <input
                 type="number"
                 name="duration"
-                value={newServiceData.duration}
+                value={newServiceData.session_length}
                 onChange={handleChange}
                 className="mt-1 block w-full shadow-sm sm:text-sm rounded-md"
               />
