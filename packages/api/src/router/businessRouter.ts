@@ -79,6 +79,15 @@ export const businessRouter = router({
       orderBy: {
         id: "desc",
       },
+      include: {
+        socialMedia: true,
+        address: true,
+        services: {
+          include: {
+            ratings: true,
+          },
+        },
+      },
     });
 
     return items;
