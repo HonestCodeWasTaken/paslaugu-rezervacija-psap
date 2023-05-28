@@ -3,6 +3,7 @@ import { Notification_Type, ReservationStatus, prisma } from "@acme/db";
 
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import "./notificationsRouter";
+import { TRPCError } from "@trpc/server";
 
 export const reservationRouter = router({
   createReservation: protectedProcedure
@@ -97,6 +98,24 @@ export const reservationRouter = router({
       const reservations = await prisma.reservation.findMany({
         where: { userId: input.userId },
         orderBy: { id: "asc" },
+      });
+      return reservations;
+    }),
+  getReservationsByUserSession: publicProcedure
+    .input(z.object({}))
+    .query(async ({ input, ctx }) => {
+      if (!ctx.session)
+        throw new TRPCError({
+          message: "User not logged in",
+          code: "UNAUTHORIZED",
+        });
+      const reservations = await prisma.reservation.findMany({
+        where: { userId: ctx.session.user.id },
+        orderBy: { id: "asc" },
+        include: {
+          User: true,
+          Service: true,
+        },
       });
       return reservations;
     }),
