@@ -11,12 +11,35 @@ type IOption =
   | "addService"
   | "addBusiness";
 
+type Notifications = {
+  id: number;
+  title: string;
+  date: string;
+  receiverUserId: string;
+};
+
 interface BearState {
   selectedOption: IOption;
   setSelectedOption: (option: IOption) => void;
 }
 
+interface NotificationsState {
+  notifications: Notifications[];
+  setNotifications: (notifications: Notifications[]) => void;
+  addNotification: (notification: Notifications) => void;
+  clearNotifications: () => void;
+}
+
 export const useSelectedOptionStore = create<BearState>()((set) => ({
   selectedOption: "none",
   setSelectedOption: (option) => set((state) => ({ selectedOption: option })),
+}));
+
+export const useNotificationsStore = create<NotificationsState>((set) => ({
+  notifications: [],
+  setNotifications: (notifications: Notifications[]) =>
+    set(() => ({ notifications })),
+  addNotification: (notification: Notifications) =>
+    set((state) => ({ notifications: [...state.notifications, notification] })),
+  clearNotifications: () => set(() => ({ notifications: [] })),
 }));

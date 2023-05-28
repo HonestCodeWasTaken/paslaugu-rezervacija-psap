@@ -10,11 +10,15 @@ import ReservationsList from "components/Reservations/ReservationsList";
 import { useSession } from "next-auth/react";
 
 import { trpc } from "~/utils/api";
-import { useSelectedOptionStore } from "../../zustand/store";
+import {
+  useNotificationsStore,
+  useSelectedOptionStore,
+} from "../../zustand/store";
 
 type Props = {};
 
 const ProfileHandler = (props: Props) => {
+  const notifications = useNotificationsStore((state) => state.notifications);
   const { data: session, status } = useSession();
   const router = useRouter();
   React.useEffect(() => {
@@ -40,7 +44,7 @@ const ProfileHandler = (props: Props) => {
     case "orders":
       return <div>Orders content...</div>;
     case "notifications":
-      return <Notifications />;
+      return <Notifications notificationArray={notifications} />;
     case "currentBusiness":
       if (userBusiness.isLoading || userBusiness.isError) {
         return <div>Loading...</div>;

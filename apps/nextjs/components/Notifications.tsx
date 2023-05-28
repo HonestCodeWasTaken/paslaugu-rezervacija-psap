@@ -2,12 +2,24 @@ import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Socket, io } from "socket.io-client";
 
+import { useNotificationsStore } from "../zustand/store";
+
 type MessageObject = {
   content: string;
   authorId: string;
 };
+type NotificationObject = {
+  id: number;
+  title: string;
+  date: string;
+  receiverUserId: string;
+};
 
 const UseSockets = () => {
+  const addNotification = useNotificationsStore(
+    (state) => state.addNotification,
+  );
+
   const socketRef = useRef<Socket | null>(null);
   const isMountedRef = useRef(false); // To track if component is still mounted
   const [error, setError] = useState<string | null>(null);
@@ -30,8 +42,8 @@ const UseSockets = () => {
             console.log("prieita");
             socketRef.current?.emit("joinUserRoom", session?.data.user?.id);
           }
-          socketRef.current.on("notification", (text: string) => {
-            console.log("Pagauta??" + text);
+          socketRef.current.on("notification", (object: NotificationObject) => {
+            addNotification(object);
           });
         }
       } catch (err) {

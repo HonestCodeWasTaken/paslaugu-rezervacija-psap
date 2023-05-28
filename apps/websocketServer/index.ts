@@ -54,7 +54,12 @@ io.on("connection", (socket: Socket) => {
   socket.on("send-notification", (Object: NotificationObject) => {
     console.log("parejo notif ");
     console.log(Object.id, Object.title, Object.date, Object.receiverUserId);
-    io.to(Object.receiverUserId).emit("notification", "haha");
+    io.to(Object.receiverUserId).emit("notification", {
+      id: Object.id,
+      title: Object.title,
+      date: Object.date,
+      receiverUserId: Object.receiverUserId,
+    });
   });
 
   socket.on("join", (chatId: string) => {
