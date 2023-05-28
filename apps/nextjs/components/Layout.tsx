@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { ReactNode, useState } from "react";
 import { useRouter } from "next/router";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useSession } from "next-auth/react";
 
+import { useSelectedOptionStore } from "../zustand/store";
 import Header from "./Header";
 
 //import SearchInput from "./SearchInput";
@@ -13,24 +15,81 @@ type LayoutProps = {
 function Layout({ children }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const selectedOption = useSelectedOptionStore(
+    (state) => state.selectedOption,
+  );
+  const setSelectedOption = useSelectedOptionStore(
+    (state) => state.setSelectedOption,
+  );
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   const toggleSidebar = () => {
-    router.asPath !== "/signin" ? setIsOpen(!isOpen) : null;
+    setIsOpen(!isOpen);
   };
-  const [parent] = useAutoAnimate();
+
   return (
     <div className="flex flex-col h-screen">
-      <Header toggleSidebar={toggleSidebar} />
+      <Header user={user} toggleSidebar={toggleSidebar} />
       <div className="flex flex-1 overflow-hidden">
         <aside
           // ref={parent}
           style={{
-            width: isOpen ? "12rem" : "0rem",
+            width: isOpen ? "25%" : "0%",
           }}
-          className="bg-gray-800 transition-all flex-col flex"
+          className="transition-all flex-col flex bg-gray-100 h-screen"
         >
           {isOpen ? (
             <>
-              <h2>Option1</h2>
+              <div className=" bg-gray-100 h-screen p-4">
+                <div className="mb-8 flex items-center">
+                  <img
+                    src={user.image || "https://via.placeholder.com/150"}
+                    alt="profile"
+                    className="rounded-full w-12 h-12 object-cover mr-4"
+                  />
+                  <div>
+                    <h1 className="font-bold text-lg">{user.name}</h1>
+                  </div>
+                </div>
+                <ul>
+                  <li
+                    className={`p-2  ${
+                      selectedOption === "calendar" ? "bg-gray-200 " : ""
+                    }`}
+                    onClick={() => setSelectedOption("calendar")}
+                  >
+                    Calendar
+                  </li>
+                  <li
+                    className={`p-2 ${
+                      selectedOption === "reservations" ? "bg-gray-200" : ""
+                    }`}
+                    onClick={() => setSelectedOption("reservations")}
+                  >
+                    Reservations
+                  </li>
+                  <li
+                    className={`p-2 ${
+                      selectedOption === "orders" ? "bg-gray-200" : ""
+                    }`}
+                    onClick={() => setSelectedOption("orders")}
+                  >
+                    Orders
+                  </li>
+                  <li
+                    className={`p-2 ${
+                      selectedOption === "notifications" ? "bg-gray-200" : ""
+                    }`}
+                    onClick={() => setSelectedOption("notifications")}
+                  >
+                    Notifications
+                  </li>
+                </ul>
+              </div>
             </>
           ) : null}
         </aside>
