@@ -23,6 +23,11 @@ const Profile = () => {
   const handleChange = (e) => {
     setBusinessData({ ...businessData, [e.target.name]: e.target.value });
   };
+
+  const handleServicesClick = () => {
+    router.push("/profile/services");
+  };
+
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -60,15 +65,29 @@ const Profile = () => {
               {businessesQuery.data.length > 0 ? (
                 <div>
                   <h2 className="mt-6 text-2xl font-semibold text-gray-900">
-                    Your Business
+                    {businessesQuery.data[0]?.name}
                   </h2>
                   <p className="mt-2 text-lg text-gray-600">
-                    {businessesQuery.data[0]?.name}
+                    {businessesQuery.data[0]?.description}
+                  </p>
+                  <br className="my-2 border-t border-gray-300" />
+                  <p className="mt-2 text-lg text-gray-600">
+                    {businessesQuery.data[0]?.email}
+                  </p>
+                  <p className="mt-2 text-lg text-gray-600">
+                    {businessesQuery.data[0]?.phoneNumber}
                   </p>
                   <button
                     type="button"
-                    // onClick={openCreateBusinessModal}
+                    onClick={handleServicesClick}
                     className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+                  >
+                    Offered Services
+                  </button>
+                  <button
+                    type="button"
+                    // onClick={openCreateBusinessModal}
+                    className="mt-6 ml-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
                   >
                     Edit Business
                   </button>
