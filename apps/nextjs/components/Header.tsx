@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+
+import NotificationButton from "./Buttons/NotificationsButton";
 
 type Props = {
   toggleSidebar: () => void;
@@ -17,8 +18,6 @@ type Props = {
 
 const Header = ({ toggleSidebar, user }: Props) => {
   const router = useRouter();
-  const session = useSession();
-  console.log(session.data?.user.id);
   return (
     <nav id="header" className="w-full z-30 top-0 py-1">
       <div className="w-full flex flex-row items-center justify-between mt-0 px-6 py-3">
