@@ -22,8 +22,6 @@ const Profile = () => {
   const router = useRouter();
   const utils = trpc.useContext();
 
-  const { mutateAsync: createBusiness } =
-    trpc.businesses.createBusiness.useMutation();
   const { mutateAsync: createService } =
     trpc.services.createServiceBySession.useMutation();
   const businessesQuery = trpc.businesses.businessesBySession.useQuery();
@@ -73,9 +71,7 @@ const Profile = () => {
         error: "Could not create service",
       },
     );
-
-    setShowServiceModal(false);
-    // await servicesQuery.refetch();
+    await utils.services.getServicesByUserSession.invalidate();
   };
   const handleEditServiceClick = (service) => {
     setEditingService(service);

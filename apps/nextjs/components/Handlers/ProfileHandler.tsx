@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import Calendar from "components/Calendar/Calendar";
 import AddBusiness from "components/Profile/AddBusiness";
+import AddService from "components/Profile/AddService";
 import CurrentBusiness from "components/Profile/CurrentBusiness";
 import ServiceList from "components/Profile/ServiceList";
 import ReservationsList from "components/Reservations/ReservationsList";
@@ -50,7 +51,7 @@ const ProfileHandler = (props: Props) => {
       }
       return <ServiceList services={userBusiness.data[0]!.services} />;
     case "addService":
-      return <AddBusiness />;
+      return <AddService />;
     case "addBusiness":
       return <AddBusiness />;
     default:
