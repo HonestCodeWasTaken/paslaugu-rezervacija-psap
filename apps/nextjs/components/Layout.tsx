@@ -48,12 +48,12 @@ function Layout({ children }: LayoutProps) {
               <div className=" bg-gray-100 h-screen p-4">
                 <div className="mb-8 flex items-center">
                   <img
-                    src={user.image || "https://via.placeholder.com/150"}
+                    src={user?.image || "https://via.placeholder.com/150"}
                     alt="profile"
                     className="rounded-full w-12 h-12 object-cover mr-4"
                   />
                   <div>
-                    <h1 className="font-bold text-lg">{user.name}</h1>
+                    <h1 className="font-bold text-lg">{user?.name}</h1>
                   </div>
                 </div>
                 <ul>

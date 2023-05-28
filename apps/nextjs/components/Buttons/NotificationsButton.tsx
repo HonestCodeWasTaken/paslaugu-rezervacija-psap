@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import UseSockets from "components/Notifications";
 
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  UseSockets();
 
   const toggle = () => {
     setIsOpen(!isOpen);

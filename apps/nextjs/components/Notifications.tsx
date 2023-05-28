@@ -28,10 +28,11 @@ const UseSockets = () => {
           });
           if (session?.data?.user?.id) {
             console.log("prieita");
-            socketRef.current?.emit("joinUserRoom", {
-              userId: session?.data.user?.id,
-            });
+            socketRef.current?.emit("joinUserRoom", session?.data.user?.id);
           }
+          socketRef.current.on("notification", (text: string) => {
+            console.log("Pagauta??" + text);
+          });
         }
       } catch (err) {
         if (err instanceof Error) {

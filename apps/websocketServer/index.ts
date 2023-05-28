@@ -9,6 +9,12 @@ type MessageObject = {
   content: string;
   authorId: string;
 };
+type NotificationObject = {
+  id: number;
+  title: string;
+  date: string;
+  receiverUserId: string;
+};
 
 const io = new Server(server, {
   cors: {
@@ -43,6 +49,12 @@ io.on("connection", (socket: Socket) => {
   socket.on("joinUserRoom", (userId: string) => {
     socket.join(userId);
     console.log(`client ${socket.id} has joined his ID room:${userId}`);
+    console.log(socket.rooms);
+  });
+  socket.on("send-notification", (Object: NotificationObject) => {
+    console.log("parejo notif ");
+    console.log(Object.id, Object.title, Object.date, Object.receiverUserId);
+    io.to(Object.receiverUserId).emit("notification", "haha");
   });
 
   socket.on("join", (chatId: string) => {

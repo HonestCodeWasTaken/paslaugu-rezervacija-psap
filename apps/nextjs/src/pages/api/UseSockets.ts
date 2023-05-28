@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+/*import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Socket, io } from "socket.io-client";
 
@@ -28,9 +28,7 @@ const UseSockets = () => {
           });
           if (session?.data?.user?.id) {
             console.log("prieita");
-            socketRef.current?.emit("joinUserRoom", {
-              userId: session?.data.user?.id,
-            });
+            socketRef.current?.emit("joinUserRoom", session?.data.user?.id);
           }
         }
       } catch (err) {
@@ -58,3 +56,4 @@ const UseSockets = () => {
 };
 
 export default UseSockets;
+*/
