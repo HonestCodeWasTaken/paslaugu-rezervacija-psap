@@ -74,14 +74,6 @@ function Layout({ children }: LayoutProps) {
                   </li>
                   <li
                     className={`p-2 ${
-                      selectedOption === "orders" ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => setSelectedOption("orders")}
-                  >
-                    Orders
-                  </li>
-                  <li
-                    className={`p-2 ${
                       selectedOption === "notifications" ? "bg-gray-200" : ""
                     }`}
                     onClick={() => setSelectedOption("notifications")}
