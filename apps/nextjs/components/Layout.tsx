@@ -89,38 +89,44 @@ function Layout({ children }: LayoutProps) {
                     Notifications
                   </li>
                   <h2 className="font-bold text-lg mb-4">Admin Actions</h2>
-                  <li
-                    className={`p-2 ${
-                      selectedOption === "currentBusiness" ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => setSelectedOption("currentBusiness")}
-                  >
-                    Current Business
-                  </li>
-                  <li
-                    className={`p-2 ${
-                      selectedOption === "currentServices" ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => setSelectedOption("currentServices")}
-                  >
-                    Current Services
-                  </li>
-                  <li
-                    className={`p-2 ${
-                      selectedOption === "addService" ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => setSelectedOption("addService")}
-                  >
-                    Add Service
-                  </li>
-                  <li
-                    className={`p-2 ${
-                      selectedOption === "addBusiness" ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => setSelectedOption("addBusiness")}
-                  >
-                    Add Business
-                  </li>
+                  <>
+                    <li
+                      className={`p-2 ${
+                        selectedOption === "currentBusiness"
+                          ? "bg-gray-200"
+                          : ""
+                      }`}
+                      onClick={() => setSelectedOption("currentBusiness")}
+                    >
+                      Current Business
+                    </li>
+                    <li
+                      className={`p-2 ${
+                        selectedOption === "currentServices"
+                          ? "bg-gray-200"
+                          : ""
+                      }`}
+                      onClick={() => setSelectedOption("currentServices")}
+                    >
+                      Current Services
+                    </li>
+                    <li
+                      className={`p-2 ${
+                        selectedOption === "addService" ? "bg-gray-200" : ""
+                      }`}
+                      onClick={() => setSelectedOption("addService")}
+                    >
+                      Add Service
+                    </li>
+                    <li
+                      className={`p-2 ${
+                        selectedOption === "addBusiness" ? "bg-gray-200" : ""
+                      }`}
+                      onClick={() => setSelectedOption("addBusiness")}
+                    >
+                      Add Business
+                    </li>
+                  </>
                 </ul>
               </div>
             </>

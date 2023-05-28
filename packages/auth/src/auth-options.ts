@@ -3,7 +3,7 @@ import { type DefaultSession, type NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
-import { prisma } from "@acme/db";
+import { User, prisma } from "@acme/db";
 
 /**
  * Module augmentation for `next-auth` types
@@ -35,6 +35,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, user }) {
       if (session.user) {
+        const adapterUser = user as User;
+        session.user.role = adapterUser.role ? adapterUser.role : "CLIENT";
         session.user.id = user.id;
         // session.user.role = user.role; <-- put other properties on the session here
       }
