@@ -24,9 +24,11 @@ function Layout({ children }: LayoutProps) {
     (state) => state.setSelectedOption,
   );
 
+  /*
   if (!user) {
     return <div>Loading...</div>;
   }
+  */
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
