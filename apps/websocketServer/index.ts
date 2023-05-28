@@ -31,6 +31,7 @@ const handleSendMessage = (chatId: number, message: MessageObject) => {
 
 io.on("connection", (socket: Socket) => {
   console.log(`A user connected with id ${socket.id}`);
+  console.log(socket.rooms);
   console.log(`client ${socket.id} has connected`);
 
   socket.on("disconnect", (reason: string) => {
@@ -39,6 +40,10 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("innitializeJoin", handleStartJoin);
   socket.on("innitializeMessage", handleSendMessage);
+  socket.on("joinUserRoom", (userId: string) => {
+    socket.join(userId);
+    console.log(`client ${socket.id} has joined his ID room:${userId}`);
+  });
 
   socket.on("join", (chatId: string) => {
     if (socket.rooms.size > 1) {

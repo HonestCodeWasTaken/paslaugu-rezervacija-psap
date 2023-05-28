@@ -1,7 +1,9 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useSession } from "next-auth/react";
 
+import UseSockets from "~/pages/api/UseSockets";
 import Header from "./Header";
 
 //import SearchInput from "./SearchInput";
@@ -16,6 +18,9 @@ function Layout({ children }: LayoutProps) {
   const toggleSidebar = () => {
     router.asPath !== "/signin" ? setIsOpen(!isOpen) : null;
   };
+  const session = useSession();
+  UseSockets();
+
   const [parent] = useAutoAnimate();
   return (
     <div className="flex flex-col h-screen">
