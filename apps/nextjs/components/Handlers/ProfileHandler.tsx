@@ -4,7 +4,7 @@ import Calendar from "components/Calendar/Calendar";
 import AddBusiness from "components/Profile/AddBusiness";
 import AddService from "components/Profile/AddService";
 import CurrentBusiness from "components/Profile/CurrentBusiness";
-import Notifications from "components/Profile/Notifications";
+import NotificationsList from "components/Profile/NotificationsList";
 import ServiceList from "components/Profile/ServiceList";
 import ReservationsList from "components/Reservations/ReservationsList";
 import { useSession } from "next-auth/react";
@@ -44,7 +44,7 @@ const ProfileHandler = (props: Props) => {
     case "orders":
       return <div>Orders content...</div>;
     case "notifications":
-      return <Notifications notificationArray={notifications} />;
+      return <NotificationsList notificationArray={notifications} />;
     case "currentBusiness":
       if (userBusiness.isLoading || userBusiness.isError) {
         return <div>Loading...</div>;
