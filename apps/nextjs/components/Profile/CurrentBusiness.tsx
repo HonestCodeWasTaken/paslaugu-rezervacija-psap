@@ -17,9 +17,25 @@ const CurrentBusiness = ({ business }: Props) => {
         </h2>
         <h4 className="text-xl text-gray-700">{currentBusiness?.name}</h4>
       </div>
-
       <div className="mb-4">
-        <p className="font-medium text-gray-900">Description:</p>
+        {currentBusiness?.main_image_url && (
+          <div className="mb-4">
+            <div className="w-64 h-64 relative">
+              <img
+                src={currentBusiness?.main_image_url}
+                alt={currentBusiness?.name}
+                layout="fill"
+                objectFit="cover"
+                className="rounded"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="mb-4">
+        <p className="font-medium text-gray-900 justify-between">
+          Description:
+        </p>
         <p className="text-gray-600">{currentBusiness?.description}</p>
       </div>
 
