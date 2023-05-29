@@ -1,6 +1,7 @@
 // pages/business/[slug].tsx
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 import { trpc } from "~/utils/api";
 import ReservationForm from "./ReservationForm";
@@ -8,7 +9,8 @@ import ReservationForm from "./ReservationForm";
 export default function BusinessPage() {
   const router = useRouter();
   const id = router.query.id?.toString() || "newMessage";
-
+  const mutate = trpc.reservations.createReservation.useMutation();
+  const session = useSession();
   const businessesQuery = trpc.businesses.businessById.useQuery({
     id: parseInt(id, 10),
   });
@@ -29,6 +31,51 @@ export default function BusinessPage() {
 
   const handleBook = (service) => {
     setSelectedService(service);
+    mutate.mutateAsync({
+      userId: session.data?.user.id || "",
+      businessId: parseInt(id, 10),
+      serviceId: service.id,
+      status: "PENDING",
+      date: new Date().toISOString(),
+      reservationEndDate: new Date().toISOString(),
+      time: "14:00",
+    });
+  };
+
+  const [status] = useState("PENDING"); // or any default status
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [reservationEndDate, setReservationEndDate] = useState(new Date());
+  const [time, setTime] = useState("00:00");
+  const [colorTag, setColorTag] = useState("");
+
+  const mockReservationData = {
+    status: "PENDING",
+    date: "2023-08-29T00:00:00.000Z",
+    reservationEndDate: "2023-08-29T02:00:00.000Z",
+    description: "Reservation for a consultation.",
+    time: "14:00",
+    userId: "user123",
+    businessId: 1,
+    serviceId: 2,
+    colorTag: "#FF6347",
+    created: "2023-05-29T09:30:00.000Z",
+  };
+
+  const handleSubmit = async (event, serviceId: number) => {
+    event.preventDefault();
+    // implement the booking logic here
+    const input = {
+      status,
+      date: date.toISOString(),
+      reservationEndDate: reservationEndDate.toISOString(),
+      description,
+      time,
+      userId: session.data?.user.id,
+      businessId: parseInt(id, 10),
+      serviceId,
+      colorTag,
+    };
   };
 
   return (
@@ -36,7 +83,7 @@ export default function BusinessPage() {
       <div className="p-6 mt-6 text-center w-full border rounded-xl">
         <div className="image-slot mb-4 w-full flex justify-center">
           <img
-            src={businessesQuery.data?.image}
+            src={businessesQuery.data?.main_image_url}
             alt="business_image"
             className="object-cover w-32 h-32 rounded-md"
           />
@@ -73,12 +120,6 @@ export default function BusinessPage() {
             ))
           )}
         </div>
-        {selectedService && (
-          <ReservationForm
-            service={selectedService}
-            onCancel={() => setSelectedService(null)}
-          />
-        )}
       </div>
     </div>
   );
