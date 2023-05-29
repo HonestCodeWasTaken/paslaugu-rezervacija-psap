@@ -23,15 +23,7 @@ function ReservationsList({ reservations }: Props) {
                 >
                   <div className="flex space-x-3">
                     <div className="flex-shrink-0">
-                      <div className="relative h-10 w-10">
-                        <Image
-                          className="h-10 w-10 rounded-full"
-                          src={
-                            reservation.User.image || "/default-user-image.jpg"
-                          }
-                          alt=""
-                        />
-                      </div>
+                      <div className="relative h-10 w-10"></div>
                     </div>
                     <div>
                       <div className="text-sm font-medium text-gray-900">
