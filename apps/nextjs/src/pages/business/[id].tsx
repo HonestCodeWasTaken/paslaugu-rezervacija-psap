@@ -1,11 +1,30 @@
 // pages/business/[slug].tsx
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { prisma } from "@acme/db";
+
+import { trpc } from "~/utils/api";
 
 export default function BusinessPage() {
   const router = useRouter();
-  const { slug } = router.query;
+  const id = router.query.id?.toString() || "newMessage";
+
+  const businessesQuery = trpc.businesses.businessById.useQuery({
+    id: parseInt(id, 10),
+  });
+  const servicesByBusinessId = trpc.services.getServicesByBusinessId.useQuery({
+    business_id: parseInt(id, 10),
+  });
+
+  if (
+    businessesQuery.isLoading ||
+    businessesQuery.isError ||
+    servicesByBusinessId.isLoading ||
+    servicesByBusinessId.isError
+  ) {
+    return <div>Loading...</div>;
+  }
 
   // Mock data
   const businessData = {
@@ -38,25 +57,35 @@ export default function BusinessPage() {
         </div>
 
         <div className="business-info mb-4">
-          <h2 className="text-2xl font-bold mb-2">{businessData.name}</h2>
-          <p className="text-sm text-gray-500">{businessData.description}</p>
+          <h2 className="text-2xl font-bold mb-2">
+            {businessesQuery.data?.name}
+          </h2>
+          <p className="text-sm text-gray-500">
+            {businessesQuery.data?.description}
+          </p>
         </div>
 
         <div className="services-container overflow-y-scroll h-64">
-          {businessData.services.map((service) => (
-            <div
-              key={service.id}
-              className="p-2 my-2 bg-gray-200 rounded-md flex justify-between items-center hover:bg-gray-300 cursor-pointer transition-colors duration-200"
-            >
-              <span>{service.name}</span>
-              <button
-                onClick={() => handleBook(service.name)}
-                className="text-white bg-green-500 px-2 py-1 rounded-md"
-              >
-                Book
-              </button>
+          {servicesByBusinessId.data.length === 0 ? (
+            <div className="p-2 my-2 bg-gray-200 rounded-md flex justify-between items-center hover:bg-gray-300 cursor-pointer transition-colors duration-200">
+              <span>No services available</span>
             </div>
-          ))}
+          ) : (
+            servicesByBusinessId.data?.map((service) => (
+              <div
+                key={service.id}
+                className="p-2 my-2 bg-gray-200 rounded-md flex justify-between items-center hover:bg-gray-300 cursor-pointer transition-colors duration-200"
+              >
+                <span>{service.service_name}</span>
+                <button
+                  onClick={() => handleBook(service.service_name)}
+                  className="text-white bg-green-500 px-2 py-1 rounded-md"
+                >
+                  Book
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
