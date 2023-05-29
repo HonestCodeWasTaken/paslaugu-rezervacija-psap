@@ -10,10 +10,11 @@ type MessageObject = {
   authorId: string;
 };
 type NotificationObject = {
-  id: number;
-  title: string;
-  date: string;
-  receiverUserId: string;
+  userId: string;
+  timestamp: string;
+  message: string;
+  isRead: boolean;
+  type: string;
 };
 
 const io = new Server(server, {
@@ -52,13 +53,13 @@ io.on("connection", (socket: Socket) => {
     console.log(socket.rooms);
   });
   socket.on("send-notification", (Object: NotificationObject) => {
-    console.log("parejo notif ");
-    console.log(Object.id, Object.title, Object.date, Object.receiverUserId);
-    io.to(Object.receiverUserId).emit("notification", {
-      id: Object.id,
-      title: Object.title,
-      date: Object.date,
-      receiverUserId: Object.receiverUserId,
+    console.log(Object.timestamp);
+    io.to(Object.userId).emit("notification", {
+      userId: Object.userId,
+      timestamp: Object.timestamp,
+      message: Object.message,
+      isRead: Object.isRead,
+      type: Object.type,
     });
   });
 

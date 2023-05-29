@@ -12,10 +12,11 @@ type IOption =
   | "addBusiness";
 
 type Notifications = {
-  id: number;
-  title: string;
-  date: string;
-  receiverUserId: string;
+  userId: string;
+  timestamp: string;
+  message: string;
+  isRead: boolean;
+  type: string;
 };
 
 interface BearState {

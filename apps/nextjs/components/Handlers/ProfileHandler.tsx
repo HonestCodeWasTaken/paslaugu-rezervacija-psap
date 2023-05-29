@@ -19,6 +19,9 @@ type Props = {};
 
 const ProfileHandler = (props: Props) => {
   const notifications = useNotificationsStore((state) => state.notifications);
+  const clearNotifications = useNotificationsStore(
+    (state) => state.clearNotifications,
+  );
   const { data: session, status } = useSession();
   const router = useRouter();
   React.useEffect(() => {
@@ -29,6 +32,10 @@ const ProfileHandler = (props: Props) => {
   const selectedOption = useSelectedOptionStore(
     (state) => state.selectedOption,
   );
+  React.useEffect(() => {
+    clearNotifications();
+  }, [selectedOption]);
+
   const reservationsQuery =
     trpc.reservations.getReservationsByUserSession.useQuery({});
   reservationsQuery.isLoading;

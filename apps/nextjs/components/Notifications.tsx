@@ -8,11 +8,13 @@ type MessageObject = {
   content: string;
   authorId: string;
 };
+
 type NotificationObject = {
-  id: number;
-  title: string;
-  date: string;
-  receiverUserId: string;
+  userId: string;
+  timestamp: string;
+  message: string;
+  isRead: boolean;
+  type: string;
 };
 
 const UseSockets = () => {
@@ -32,7 +34,6 @@ const UseSockets = () => {
         // Then, create the socket connection
         socketRef.current = io("http://localhost:3001");
         if (socketRef.current) {
-          console.log("blet");
           socketRef.current.on("connect", () => {
             console.log("Connected to socket server");
           });
@@ -40,6 +41,7 @@ const UseSockets = () => {
             socketRef.current?.emit("joinUserRoom", session?.data.user?.id);
           }
           socketRef.current.on("notification", (object: NotificationObject) => {
+            console.log(object.timestamp + " " + object.message + " BLED");
             addNotification(object);
           });
         }
