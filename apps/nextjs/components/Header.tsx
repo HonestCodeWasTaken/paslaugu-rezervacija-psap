@@ -1,5 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
+import NotificationButton from "./Buttons/NotificationsButton";
 
 type Props = {
   toggleSidebar: () => void;
@@ -15,7 +18,9 @@ type Props = {
 };
 
 const Header = ({ toggleSidebar, user }: Props) => {
+  const session = useSession();
   const router = useRouter();
+  console.log(session.data?.user?.id);
   return (
     <nav id="header" className="w-full z-30 top-0 py-1">
       <div className="w-full flex flex-row items-center justify-between mt-0 px-6 py-3">
@@ -87,6 +92,7 @@ const Header = ({ toggleSidebar, user }: Props) => {
               <circle cx="17.5" cy="18.5" r="1.5" />
             </svg>
           </a>
+          {session && session.data?.user?.id ? <NotificationButton /> : null}
         </div>
       </div>
     </nav>

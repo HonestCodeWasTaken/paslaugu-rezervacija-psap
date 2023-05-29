@@ -1,4 +1,5 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import io from "socket.io-client";
 
 export const socket = io({
@@ -16,7 +17,8 @@ const Home = () => {
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
   const [allMessages, setAllMessages] = useState<messageObject[]>([]);
-
+  const session = useSession();
+  console.log(session.data?.user.id);
   useEffect(() => {
     // useEffect mounting/dismounting fix..
     if (effectRan.current === false) {
