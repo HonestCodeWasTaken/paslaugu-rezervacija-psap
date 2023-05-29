@@ -16,7 +16,7 @@ const Services = ({ services }: Props) => {
   const [newServiceData, setNewServiceData] = useState({
     service_name: "",
     description: "",
-    cost: 0,
+    cost: "",
     session_length: "",
     category_id: "",
   });
@@ -28,6 +28,7 @@ const Services = ({ services }: Props) => {
   const updateServiceMutation = trpc.services.updateService.useMutation();
   const utils = trpc.useContext();
   const handleChange = (e) => {
+    console.log({ ...newServiceData, [e.target.name]: e.target.value });
     setNewServiceData({ ...newServiceData, [e.target.name]: e.target.value });
   };
 
@@ -53,6 +54,43 @@ const Services = ({ services }: Props) => {
 
     setShowServiceModal(false);
     servicesQuery.refetch();
+  };
+  const handleEditServiceSubmit = async () => {
+    await toast.promise(
+      updateServiceMutation.mutateAsync({
+        id: editingService!.id,
+        updates: {
+          service_name:
+            newServiceData.service_name === ""
+              ? undefined
+              : newServiceData.service_name,
+          description:
+            newServiceData.description === ""
+              ? undefined
+              : newServiceData.description,
+          cost:
+            newServiceData.cost === ""
+              ? undefined
+              : parseInt(newServiceData.cost, 10),
+          session_length:
+            newServiceData.session_length === ""
+              ? undefined
+              : newServiceData.session_length,
+          category_id:
+            newServiceData.category_id === ""
+              ? undefined
+              : parseInt(newServiceData.category_id, 10),
+        },
+      }),
+      {
+        loading: "editing service...",
+        success: "Service edited!",
+        error: "Could not edit service",
+      },
+    );
+
+    setShowServiceModal(false);
+    await utils.businesses.businessesBySession.refetch();
   };
 
   const handleEditServiceClick = (service) => {
@@ -122,17 +160,17 @@ const Services = ({ services }: Props) => {
           <form>
             <div className="mt-4">
               <label
-                htmlFor="name"
+                htmlFor="service_name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Name
               </label>
               <input
                 type="text"
-                name="name"
+                name="service_name"
                 value={newServiceData.service_name}
                 onChange={handleChange}
-                className="mt-1 block w-full shadow-sm sm:text-sm rounded-md"
+                className="mt-1 block text-black w-full shadow-sm sm:text-sm rounded-md"
               />
             </div>
             <div className="mt-4">
@@ -158,7 +196,7 @@ const Services = ({ services }: Props) => {
               </label>
               <input
                 type="number"
-                name="price"
+                name="cost"
                 value={newServiceData.cost}
                 onChange={handleChange}
                 className="mt-1 block w-full shadow-sm sm:text-sm rounded-md"
@@ -172,8 +210,7 @@ const Services = ({ services }: Props) => {
                 Duration
               </label>
               <input
-                type="number"
-                name="duration"
+                name="session_length"
                 value={newServiceData.session_length}
                 onChange={handleChange}
                 className="mt-1 block w-full shadow-sm sm:text-sm rounded-md"
@@ -189,35 +226,7 @@ const Services = ({ services }: Props) => {
             </button>
             <button
               className="ml-4 px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-600"
-              onClick={() =>
-                editingService
-                  ? updateServiceMutation.mutate({
-                      id: editingService.id,
-                      updates: {
-                        service_name:
-                          newServiceData.service_name === ""
-                            ? undefined
-                            : newServiceData.service_name,
-                        description:
-                          newServiceData.description === ""
-                            ? undefined
-                            : newServiceData.description,
-                        cost:
-                          newServiceData.cost === 0
-                            ? undefined
-                            : newServiceData.cost,
-                        session_length:
-                          newServiceData.session_length === ""
-                            ? undefined
-                            : newServiceData.session_length,
-                        category_id:
-                          newServiceData.category_id === ""
-                            ? undefined
-                            : parseInt(newServiceData.category_id, 10),
-                      },
-                    })
-                  : handleAddServiceSubmit()
-              }
+              onClick={() => handleEditServiceSubmit()}
             >
               Save
             </button>

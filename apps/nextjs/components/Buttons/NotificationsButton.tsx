@@ -25,7 +25,10 @@ const NotificationButton = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-[0] ease-in-out duration-500 transition-all bg-white mt-20 py-2 w-64 rounded-lg shadow-xl">
+        <div
+          style={{ left: "-100px" }}
+          className="absolute left-[-100px] ease-in-out duration-500 transition-all bg-white mt-20 py-2 w-64 rounded-lg shadow-xl"
+        >
           <div className="flex items-center px-4 py-3 border-b border-gray-200">
             <span className="font-bold text-gray-800">Your Message 1</span>
           </div>
