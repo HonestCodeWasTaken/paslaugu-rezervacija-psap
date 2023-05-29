@@ -40,6 +40,7 @@ export default function BusinessPage() {
       reservationEndDate: new Date().toISOString(),
       time: "19:00",
     });
+    alert("Reservation created!");
   };
 
   return (
