@@ -42,42 +42,6 @@ export default function BusinessPage() {
     });
   };
 
-  const [status] = useState("PENDING"); // or any default status
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [reservationEndDate, setReservationEndDate] = useState(new Date());
-  const [time, setTime] = useState("00:00");
-  const [colorTag, setColorTag] = useState("");
-
-  const mockReservationData = {
-    status: "PENDING",
-    date: "2023-08-29T00:00:00.000Z",
-    reservationEndDate: "2023-08-29T02:00:00.000Z",
-    description: "Reservation for a consultation.",
-    time: "14:00",
-    userId: "user123",
-    businessId: 1,
-    serviceId: 2,
-    colorTag: "#FF6347",
-    created: "2023-05-29T09:30:00.000Z",
-  };
-
-  const handleSubmit = async (event, serviceId: number) => {
-    event.preventDefault();
-    // implement the booking logic here
-    const input = {
-      status,
-      date: date.toISOString(),
-      reservationEndDate: reservationEndDate.toISOString(),
-      description,
-      time,
-      userId: session.data?.user.id,
-      businessId: parseInt(id, 10),
-      serviceId,
-      colorTag,
-    };
-  };
-
   return (
     <div className="flex justify-center w-full h-full">
       <div className="p-6 mt-6 text-center w-full border rounded-xl">
@@ -109,7 +73,12 @@ export default function BusinessPage() {
                 key={service.id}
                 className="p-2 my-2 bg-gray-200 rounded-md flex justify-between items-center hover:bg-gray-300 cursor-pointer transition-colors duration-200"
               >
-                <span>{service.service_name}</span>
+                <div>
+                  <span className="font-bold">{service.service_name}</span>
+                  <span className="text-sm text-gray-500 pl-3">
+                    14:00 Today
+                  </span>
+                </div>
                 <button
                   onClick={() => handleBook(service)}
                   className="text-white bg-green-500 px-2 py-1 rounded-md"
