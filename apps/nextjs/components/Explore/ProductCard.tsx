@@ -1,17 +1,25 @@
 // ProductCard.tsx
 import Image from "next/image";
+import Link from "next/link";
+import router from "next/router";
 
 type Props = {
   id: number;
   imageUrl: string;
   productName: string;
   description: string;
+  id: number;
 };
 
 const ProductCard = ({ id, imageUrl, productName, description }: Props) => {
   return (
     <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-      <a href={`/business?id=${id}`}>
+      <Link
+        key={id}
+        href={`/business/${id}`}
+        className="w-full px-5"
+        onClick={() => router.push(`/business/${id}`)}
+      >
         <img
           // width={400}
           // height={400}
@@ -30,7 +38,7 @@ const ProductCard = ({ id, imageUrl, productName, description }: Props) => {
           </svg>
         </div>
         <p className="pt-1 text-gray-900 truncate">{description}</p>
-      </a>
+      </Link>
     </div>
   );
 };
