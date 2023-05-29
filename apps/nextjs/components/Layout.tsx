@@ -13,7 +13,7 @@ type LayoutProps = {
 };
 
 function Layout({ children }: LayoutProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { data: session, status } = useSession();
   const user = session?.user;
   const selectedOption = useSelectedOptionStore(
@@ -50,7 +50,7 @@ function Layout({ children }: LayoutProps) {
                   <img
                     src={user?.image || "https://via.placeholder.com/150"}
                     alt="profile"
-                    className="rounded-full w-12 h-12 object-cover mr-4"
+                    className="rounded-full w-8 h-8 object-cover mr-4"
                   />
                   <div>
                     <h1 className="font-bold text-lg">{user?.name}</h1>

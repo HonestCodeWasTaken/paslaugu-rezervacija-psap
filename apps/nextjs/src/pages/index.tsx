@@ -66,6 +66,7 @@ const Home = () => {
           {businessesQuery.data.map((product, index) => (
             <>
               <ProductCard
+                id={product.id}
                 key={index}
                 imageUrl={product.main_image_url}
                 productName={product.name}
