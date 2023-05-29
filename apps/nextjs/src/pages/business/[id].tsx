@@ -38,7 +38,7 @@ export default function BusinessPage() {
       status: "PENDING",
       date: new Date().toISOString(),
       reservationEndDate: new Date().toISOString(),
-      time: "14:00",
+      time: "19:00",
     });
   };
 
@@ -76,7 +76,7 @@ export default function BusinessPage() {
                 <div>
                   <span className="font-bold">{service.service_name}</span>
                   <span className="text-sm text-gray-500 pl-3">
-                    14:00 Today
+                    19:00 Today
                   </span>
                 </div>
                 <button
