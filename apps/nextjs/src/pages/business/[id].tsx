@@ -1,10 +1,9 @@
 // pages/business/[slug].tsx
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { prisma } from "@acme/db";
 
 import { trpc } from "~/utils/api";
+import ReservationForm from "./ReservationForm";
 
 export default function BusinessPage() {
   const router = useRouter();
@@ -17,6 +16,8 @@ export default function BusinessPage() {
     business_id: parseInt(id, 10),
   });
 
+  const [selectedService, setSelectedService] = useState(null);
+
   if (
     businessesQuery.isLoading ||
     businessesQuery.isError ||
@@ -26,23 +27,8 @@ export default function BusinessPage() {
     return <div>Loading...</div>;
   }
 
-  // Mock data
-  const businessData = {
-    name: "Business Name",
-    description: "This is a wonderful business.",
-    image: "https://trainok-s3.s3.eu-north-1.amazonaws.com/man1.jpg", // Path to your image
-    services: [
-      { id: 1, name: "Service 1" },
-      { id: 2, name: "Service 2" },
-      { id: 3, name: "Service 3" },
-      { id: 4, name: "Service 4" },
-      { id: 5, name: "Service 5" },
-    ],
-  };
-
-  // Function to handle service booking
-  const handleBook = (serviceName: string) => {
-    alert(`You booked ${serviceName}`);
+  const handleBook = (service) => {
+    setSelectedService(service);
   };
 
   return (
@@ -50,7 +36,7 @@ export default function BusinessPage() {
       <div className="p-6 mt-6 text-center w-full border rounded-xl">
         <div className="image-slot mb-4 w-full flex justify-center">
           <img
-            src={businessData.image}
+            src={businessesQuery.data?.image}
             alt="business_image"
             className="object-cover w-32 h-32 rounded-md"
           />
@@ -78,7 +64,7 @@ export default function BusinessPage() {
               >
                 <span>{service.service_name}</span>
                 <button
-                  onClick={() => handleBook(service.service_name)}
+                  onClick={() => handleBook(service)}
                   className="text-white bg-green-500 px-2 py-1 rounded-md"
                 >
                   Book
@@ -87,6 +73,12 @@ export default function BusinessPage() {
             ))
           )}
         </div>
+        {selectedService && (
+          <ReservationForm
+            service={selectedService}
+            onCancel={() => setSelectedService(null)}
+          />
+        )}
       </div>
     </div>
   );
